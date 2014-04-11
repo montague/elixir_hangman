@@ -33,23 +33,23 @@ defmodule HangmanTest do
     assert Hangman.blanks_for(meta[:word]) == "_____"
   end
 
-  test ".guess_a_letter hit", meta do
-    capture_io("l", fn ->
-      assert Hangman.guess_a_letter(meta[:word], meta[:blanks]) == { :hit }
-    end)
-  end
+  #test ".guess_a_letter hit", meta do
+    #capture_io("l", fn ->
+      #assert Hangman.guess_a_letter(meta[:word], meta[:blanks]) == { :hit }
+    #end)
+  #end
 
-  test ".guess_a_letter win", meta do
-    [guess | tail] = String.split(meta[:word],"")
-    blanks = "_" <> Enum.join(tail)
-    capture_io(guess, fn ->
-      assert Hangman.guess_a_letter(meta[:word], blanks) == { :win }
-    end)
-  end
+  #test ".guess_a_letter win", meta do
+    #[guess | tail] = String.split(meta[:word],"")
+    #blanks = "_" <> Enum.join(tail)
+    #capture_io(guess, fn ->
+      #assert Hangman.guess_a_letter(meta[:word], blanks) == { :win }
+    #end)
+  #end
 
-  test ".guess_a_letter miss", meta do
-    capture_io("x", fn ->
-      assert Hangman.guess_a_letter(meta[:word], meta[:blanks]) == { :miss }
-    end)
-  end
+  #test ".guess_a_letter miss", meta do
+    #capture_io("x", fn ->
+      #assert Hangman.guess_a_letter(meta[:word], meta[:blanks]) == { :miss }
+    #end)
+  #end
 end

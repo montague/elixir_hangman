@@ -4,6 +4,7 @@ defmodule Hangman do
     welcome
     word = "hello"
     blanks = blanks_for word
+    guess_a_letter(word, blanks)
   end
 
   def welcome do
@@ -20,20 +21,22 @@ defmodule Hangman do
   # get letter, check for win
   # if no win, update board and print out, call again
   # else, print out win, call "run"
+  #def game_loop({ :win }, word, blanks) do
+    #IO.puts "YOU WIN!\n"
+  #end
 
   def guess_a_letter(word, blanks) do
-    guess = get_letter
-    { result, blanks } = check_letter(guess, word, blanks)
-
-    cond do
-      is_solved?(blanks) ->
-        { :win }
-      result == :hit ->
-        { result }
-      result == :miss ->
-        { result }
-      true ->
-        { :wtf }
+    IO.puts """
+    current status:
+    #{blanks}
+    """
+    # poor man's chomp
+    guess = get_letter |> String.rstrip(?\n)
+    { _, blanks } = check_letter(guess, word, blanks)
+    if is_solved?(blanks) do
+      { :win }
+    else
+      guess_a_letter(word, blanks)
     end
   end
 
@@ -42,7 +45,8 @@ defmodule Hangman do
   end
 
   def get_letter do
-    IO.getn "Pick a letter: \n"
+    # grab letter and newline char
+    IO.getn "Pick a letter: \n", 2
   end
 
   def check_letter(letter, word, blanks) do
