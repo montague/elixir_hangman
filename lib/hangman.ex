@@ -47,7 +47,7 @@ defmodule Hangman do
       result == :hit ->
         guess_a_letter(word, blanks, misses, letters_guessed)
       result == :miss ->
-        if misses + 1 == 8 do
+        if misses + 1 == @misses_allowed do
           IO.puts "GAME OVER"
         else
           guess_a_letter(word, blanks, misses + 1, letters_guessed)
