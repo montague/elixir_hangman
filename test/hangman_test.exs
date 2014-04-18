@@ -33,6 +33,14 @@ defmodule HangmanTest do
     assert Hangman.blanks_for(meta[:word]) == "_____"
   end
 
+  test ".game_over? true" do
+    assert Hangman.game_over?(8)
+  end
+
+  test ".game_over? false" do
+    refute Hangman.game_over?(1)
+  end
+
   test ".print_status", meta do
     assert capture_io(fn -> 
       Hangman.print_status("abc", 1, "__x")

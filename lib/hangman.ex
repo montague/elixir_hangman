@@ -35,33 +35,43 @@ defmodule Hangman do
     String.split(blanks,"") |> Enum.join(" ") |> String.rstrip(? )
   end
 
-  def hi do
-    IO.puts "hi"
+  def print_win_status(blanks) do
+    IO.puts """
+    #{format_blanks_for_print(blanks)}
+    You win!
+    """
   end
+
+  def game_over?(@misses_allowed), do: true
+  def game_over?(_), do: false
 
   def guess_a_letter(word, blanks, misses, letters_guessed) do
     print_status(letters_guessed, misses, blanks)
+
     # poor man's chomp
     guess = get_letter |> String.first
-    letters_guessed = letters_guessed ++ [guess]
-    { result, blanks } = check_letter(guess, word, blanks)
 
-    cond do
-      is_solved?(blanks) ->
-        IO.puts """
-        #{format_blanks_for_print(blanks)}
-        You win!
-        """
-      result == :hit ->
-        guess_a_letter(word, blanks, misses, letters_guessed)
-      result == :miss ->
-        if misses + 1 == @misses_allowed do
-          IO.puts "GAME OVER"
-        else
-          guess_a_letter(word, blanks, misses + 1, letters_guessed)
-        end
-      true ->
-        IO.puts "WHY AM I HERE"
+    # no-op if nothing entered
+    if guess == "\n" do
+      guess_a_letter(word, blanks, misses, letters_guessed)
+    else
+      letters_guessed = letters_guessed ++ [guess]
+      { result, blanks } = check_letter(guess, word, blanks)
+      cond do
+        is_solved?(blanks) ->
+          print_win_status(blanks)
+        result == :hit ->
+          guess_a_letter(word, blanks, misses, letters_guessed)
+        result == :miss ->
+          misses = misses + 1
+          if game_over?(misses) do
+            IO.puts "GAME OVER"
+          else
+            guess_a_letter(word, blanks, misses, letters_guessed)
+          end
+        true ->
+          IO.puts "WHY AM I HERE"
+      end
     end
   end
 
