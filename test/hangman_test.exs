@@ -33,6 +33,22 @@ defmodule HangmanTest do
     assert Hangman.blanks_for(meta[:word]) == "_____"
   end
 
+  test ".print_status", meta do
+    assert capture_io(fn -> 
+      Hangman.print_status("abc", 1, "__x")
+    end) == """
+    Letters guessed: abc
+    Misses left: 7
+      | 
+      0
+
+
+
+    _ _ x
+
+    """
+  end
+
   #test ".guess_a_letter hit", meta do
     #capture_io("l", fn ->
       #assert Hangman.guess_a_letter(meta[:word], meta[:blanks]) == { :hit }

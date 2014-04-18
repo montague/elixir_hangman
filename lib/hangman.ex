@@ -15,15 +15,7 @@ defmodule Hangman do
     """
   end
 
-  def blanks_for(word) do
-    String.replace(word, ~r/./, "_")
-  end
-
-  def format_blanks_for_print(blanks) do
-    String.split(blanks,"") |> Enum.join(" ") |> String.rstrip(? )
-  end
-
-  def guess_a_letter(word, blanks, misses, letters_guessed) do
+  def print_status(letters_guessed, misses, blanks) do
     IO.puts """
     Letters guessed: #{letters_guessed}
     Misses left: #{@misses_allowed - misses}
@@ -33,6 +25,22 @@ defmodule Hangman do
 
     #{format_blanks_for_print(blanks)}
     """
+  end
+
+  def blanks_for(word) do
+    String.replace(word, ~r/./, "_")
+  end
+
+  def format_blanks_for_print(blanks) do
+    String.split(blanks,"") |> Enum.join(" ") |> String.rstrip(? )
+  end
+
+  def hi do
+    IO.puts "hi"
+  end
+
+  def guess_a_letter(word, blanks, misses, letters_guessed) do
+    print_status(letters_guessed, misses, blanks)
     # poor man's chomp
     guess = get_letter |> String.first
     letters_guessed = letters_guessed ++ [guess]
