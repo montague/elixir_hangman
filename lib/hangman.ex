@@ -1,5 +1,6 @@
 defmodule Hangman do
   @misses_allowed 8
+  @words []
 
   def run! do
     welcome
