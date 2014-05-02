@@ -1,12 +1,14 @@
 defmodule Hangman do
   @misses_allowed 8
-  @words []
+  @words WordsRepo.load_words
+
 
   def run! do
     welcome
-    word = "hello"
-    blanks = blanks_for word
-    guess_a_letter(word, blanks, 0, [])
+    word = hd(@words)
+    misses = 0
+    letters_guessed = []
+    guess_a_letter(word, blanks_for(word), misses, letters_guessed)
   end
 
   def welcome do
@@ -53,26 +55,29 @@ defmodule Hangman do
     guess = get_letter |> String.first
 
     # no-op if nothing entered
-    if guess == "\n" do
-      guess_a_letter(word, blanks, misses, letters_guessed)
-    else
-      letters_guessed = letters_guessed ++ [guess]
-      { result, blanks } = check_letter(guess, word, blanks)
-      cond do
-        is_solved?(blanks) ->
-          print_win_status(blanks)
-        result == :hit ->
-          guess_a_letter(word, blanks, misses, letters_guessed)
-        result == :miss ->
-          misses = misses + 1
-          if game_over?(misses) do
-            IO.puts "GAME OVER"
-          else
+    cond do
+      guess == "\n" ->
+        guess_a_letter(word, blanks, misses, letters_guessed)
+      Enum.any?(letters_guessed, &(&1 == guess)) ->
+        guess_a_letter(word, blanks, misses, letters_guessed)
+      true ->
+        letters_guessed = letters_guessed ++ [guess]
+        { result, blanks } = check_letter(guess, word, blanks)
+        cond do
+          is_solved?(blanks) ->
+            print_win_status(blanks)
+          result == :hit ->
             guess_a_letter(word, blanks, misses, letters_guessed)
-          end
-        true ->
-          IO.puts "WHY AM I HERE"
-      end
+          result == :miss ->
+            misses = misses + 1
+            if game_over?(misses) do
+              IO.puts "GAME OVER: #{word}"
+            else
+              guess_a_letter(word, blanks, misses, letters_guessed)
+            end
+          true ->
+            IO.puts "WHY AM I HERE"
+        end
     end
   end
 

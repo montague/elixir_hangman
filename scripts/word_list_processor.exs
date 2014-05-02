@@ -1,10 +1,4 @@
 defmodule WordListProcessor do
-  # from http://joearms.github.io/2013/05/31/a-week-with-elixir.html
-  def pp(x) do 
-  :io_lib.format("~p", [x])
-  |> :lists.flatten
-  |> :erlang.list_to_binary
-  end
 
   def read_words(file_path) do
     File.read!(file_path)
@@ -15,6 +9,13 @@ defmodule WordListProcessor do
   def write_words_list(words, file_path) do
     f = File.open!(file_path, [:write])
     Enum.each(words, &IO.puts(f, &1))
+  end
+
+  # from http://joearms.github.io/2013/05/31/a-week-with-elixir.html
+  def pp(x) do 
+  :io_lib.format("~p", [x])
+  |> :lists.flatten
+  |> :erlang.list_to_binary
   end
 end
 
