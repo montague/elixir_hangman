@@ -4,8 +4,10 @@ defmodule Hangman.Mixfile do
   def project do
     [ app: :hangman,
       version: "0.0.1",
-      elixir: "~> 0.13.0",
-      deps: deps ]
+      elixir: "~> 0.13.1",
+      deps: deps,
+      escript_main_module: Hangman
+      ]
   end
 
   # Configuration for the OTP application

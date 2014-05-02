@@ -3,7 +3,7 @@ defmodule Hangman do
   @words WordsRepo.load_words
 
 
-  def run! do
+  def main(args) do
     welcome
     word = hd(@words)
     misses = 0
