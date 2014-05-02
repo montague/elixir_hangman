@@ -4,6 +4,7 @@ defmodule WordsRepo do
   # filter out words shorter than
   # 5
   def load_words do
+    IO.puts "EY YO. I'm loading words..."
     :random.seed(:erlang.now)
     list = File.read!("./data/valid_words_list.txt")
     |> String.split("\n")

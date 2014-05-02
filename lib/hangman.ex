@@ -1,11 +1,9 @@
 defmodule Hangman do
   @misses_allowed 8
-  @words WordsRepo.load_words
-
 
   def main(args) do
     welcome
-    word = hd(@words)
+    word = hd WordsRepo.load_words
     misses = 0
     letters_guessed = []
     guess_a_letter(word, blanks_for(word), misses, letters_guessed)
