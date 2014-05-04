@@ -13,9 +13,9 @@ defmodule WordListProcessor do
 
   # from http://joearms.github.io/2013/05/31/a-week-with-elixir.html
   def pp(x) do 
-  :io_lib.format("~p", [x])
-  |> :lists.flatten
-  |> :erlang.list_to_binary
+    :io_lib.format("~p", [x])
+    |> :lists.flatten
+    |> :erlang.list_to_binary
   end
 end
 
