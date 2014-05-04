@@ -2,11 +2,15 @@ defmodule Hangman do
   @misses_allowed 8
 
   def main(args) do
+    # new game
     welcome
-    word = hd WordsRepo.load_words
-    misses = 0
-    letters_guessed = []
-    guess_a_letter(word, blanks_for(word), misses, letters_guessed)
+    [word, words] = get_word(WordsRepo.load_words)
+    game_state = [
+      misses: 0, letters_guessed: [],
+      words: words, word: word,
+      blanks: blanks_for(word)
+      ]
+    guess_a_letter(game_state)
   end
 
   def welcome do
@@ -14,6 +18,10 @@ defmodule Hangman do
     Welcome to Hangman!
     Game on!
     """
+  end
+
+  def get_word([word | words]) do
+    [word, words]
   end
 
   def print_status(letters_guessed, misses, blanks) do
@@ -46,7 +54,12 @@ defmodule Hangman do
   def game_over?(@misses_allowed), do: true
   def game_over?(_), do: false
 
-  def guess_a_letter(word, blanks, misses, letters_guessed) do
+  def guess_a_letter(game_state) do
+    word = game_state[:word]
+    words = game_state[:words]
+    blanks = game_state[:blanks]
+    misses = game_state[:misses]
+    letters_guessed = game_state[:letters_guessed]
     print_status(letters_guessed, misses, blanks)
 
     # poor man's chomp
@@ -55,28 +68,51 @@ defmodule Hangman do
     # no-op if nothing entered
     cond do
       guess == "\n" ->
-        guess_a_letter(word, blanks, misses, letters_guessed)
+        guess_a_letter(game_state)
       Enum.any?(letters_guessed, &(&1 == guess)) ->
-        guess_a_letter(word, blanks, misses, letters_guessed)
+        guess_a_letter(game_state)
       true ->
         letters_guessed = letters_guessed ++ [guess]
+        game_state = update_game_state(game_state, [letters_guessed: letters_guessed])
         { result, blanks } = check_letter(guess, word, blanks)
+        game_state = update_game_state(game_state, [blanks: blanks])
         cond do
           is_solved?(blanks) ->
             print_win_status(blanks)
+            if play_again? do
+              [word, words] = get_word(words)
+              guess_a_letter([
+                misses: 0, letters_guessed: [],
+                words: words, word: word,
+                blanks: blanks_for(word)
+                ])
+            end
           result == :hit ->
-            guess_a_letter(word, blanks, misses, letters_guessed)
+            guess_a_letter(game_state)
           result == :miss ->
             misses = misses + 1
+            game_state = update_game_state(game_state, [misses: misses])
             if game_over?(misses) do
               IO.puts "GAME OVER: #{word}"
+              if play_again? do
+                [word, words] = get_word(words)
+                guess_a_letter([
+                  misses: 0, letters_guessed: [],
+                  words: words, word: word,
+                  blanks: blanks_for(word)
+                  ])
+              end
             else
-              guess_a_letter(word, blanks, misses, letters_guessed)
+              guess_a_letter(game_state)
             end
           true ->
-            IO.puts "WHY AM I HERE"
+            IO.puts "BAD! NO! BAD!!"
         end
     end
+  end
+
+  def update_game_state(game_state, updates) do
+    updates ++ game_state
   end
 
   def get_status(misses) do
@@ -99,6 +135,22 @@ defmodule Hangman do
   def get_letter do
     # grab letter and newline char
     IO.gets "Pick a letter: "
+  end
+
+  def play_again? do
+    play_again = IO.gets("Play again? (y/n)\n") |> String.first
+    cond do
+      play_again == "y" ->
+        #start new game
+        IO.puts "Playing again!"
+        true
+      play_again == "n" ->
+        IO.puts "Goodbye :)"
+        false
+      true ->
+        play_again?
+    end
+    
   end
 
   def check_letter(letter, word, blanks) do
