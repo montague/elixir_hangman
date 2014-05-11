@@ -1,4 +1,4 @@
-  |
-<%= if @misses > 0, do: "  0"%>
-<%= if @misses > 2, do: " /", else: "  "%><%= if @misses > 1, do: "|"%><%= if @misses > 3, do: "\\"%>
-<%= if @misses > 6, do: "_", else: " "%><%= if @misses > 4, do: "/"%> <%= if @misses > 5, do: "\\"%><%= if @misses > 7, do: "_"%>
+     |
+   <%= if @misses > 0, do: "  0"%>
+   <%= if @misses > 2, do: " /", else: "  "%><%= if @misses > 1, do: "|"%><%= if @misses > 3, do: "\\"%>
+   <%= if @misses > 6, do: "_", else: " "%><%= if @misses > 4, do: "/"%> <%= if @misses > 5, do: "\\"%><%= if @misses > 7, do: "_"%>

@@ -83,6 +83,7 @@ defmodule Hangman do
             misses = misses + 1
             game_state = update_game_state(game_state, [misses: misses])
             if game_over?(misses) do
+              IO.puts print_status(letters_guessed, misses, blanks)
               IO.puts "GAME OVER: #{word}"
               if play_again?, do: new_game_state(words) |> guess_a_letter
             else
