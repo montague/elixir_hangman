@@ -41,22 +41,23 @@ defmodule HangmanTest do
     refute Hangman.game_over?(1)
   end
 
-  test ".print_status", meta do
-    assert capture_io(fn -> 
-      Hangman.print_status("abc", 1, "__x")
-    end) == """
-    Word length: 3
-    Letters guessed: abc
-    Misses left: 7
-      | 
-      0
+  #test ".print_status", meta do
+    #assert capture_io(fn -> 
+      #Hangman.print_status("abc", 7, "__x")
+    #end) == """
+    #Word length: 3
+    #Letters guessed: abc
+    #Misses left: 1
+      #| 
+      #0
+     #/|\
+    #_/ \
 
 
+    #_ _ x
 
-    _ _ x
-
-    """
-  end
+    #"""
+  #end
 
   #test ".guess_a_letter hit", meta do
     #capture_io("l", fn ->

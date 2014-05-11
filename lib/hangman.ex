@@ -1,4 +1,8 @@
 defmodule Hangman do
+  require EEx
+  EEx.function_from_file :def, :hanging_man_status,
+    "./lib/templates/hanging_man_status.eex", [:assigns]
+
   @misses_allowed 8
 
   def main(args) do
@@ -21,7 +25,7 @@ defmodule Hangman do
     Word length: #{String.length(blanks)}
     Letters guessed: #{letters_guessed}
     Misses left: #{@misses_allowed - misses}
-    #{get_status(misses)}
+    #{hanging_man_status(misses: misses)}
 
 
 
@@ -99,19 +103,6 @@ defmodule Hangman do
 
   def update_game_state(game_state, updates) do
     updates ++ game_state
-  end
-
-  def get_status(misses) do
-    status = "  | "
-    if misses > 0, do: status = status <> "\n  0"
-    if misses > 1, do: status = status <> "\n /"
-    if misses > 2, do: status = status <> "|"
-    if misses > 3, do: status = status <> "\\"
-    if misses > 4, do: status = status <> "\n_"
-    if misses > 5, do: status = status <> "/"
-    if misses > 6, do: status = status <> " \\"
-    if misses > 7, do: status = status <> "_"
-    status
   end
 
   def is_solved?(blanks) do
