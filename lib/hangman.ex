@@ -132,15 +132,15 @@ defmodule Hangman do
   def check_letter(letter, word, blanks) do
     # flatten the returned list of list of tuples
     # [[{idx,_}],[{idx,_}]]
+    # and grab only the indexes where the letter occurred.
     indexes =
       Regex.scan(~r/#{letter}/, word, return: :index)
       |> List.flatten
       |> Enum.map(&(elem(&1, 0)))
 
     if Enum.any?(indexes) do
-      updated_blanks = Enum.reduce(indexes, blanks, fn(index, str) ->
-        List.replace_at(String.split(str, ""), index, letter)
-        |> Enum.join
+      updated_blanks = Enum.reduce(indexes, blanks, fn(index, acc_str) ->
+        String.split(acc_str, "") |> List.replace_at(index, letter) |> Enum.join
       end)
       { :hit, updated_blanks }
     else
