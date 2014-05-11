@@ -45,6 +45,7 @@ defmodule HangmanTest do
     assert capture_io(fn -> 
       Hangman.print_status("abc", 1, "__x")
     end) == """
+    Word length: 3
     Letters guessed: abc
     Misses left: 7
       | 
