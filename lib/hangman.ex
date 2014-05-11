@@ -59,8 +59,7 @@ defmodule Hangman do
     letters_guessed = game_state[:letters_guessed]
     print_status(letters_guessed, misses, blanks)
 
-    # poor man's chomp
-    guess = get_letter |> String.first
+    guess = IO.gets("Pick a letter: ") |> String.first
 
     # no-op if nothing entered
     cond do
@@ -108,11 +107,6 @@ defmodule Hangman do
 
   def is_solved?(blanks) do
    !(blanks =~ "_")
-  end
-
-  def get_letter do
-    # grab letter and newline char
-    IO.gets "Pick a letter: "
   end
 
   def play_again? do
