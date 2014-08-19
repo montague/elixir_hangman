@@ -38,7 +38,7 @@ defmodule Hangman do
   end
 
   def format_blanks_for_print(blanks) do
-    String.split(blanks,"") |> Enum.join(" ") |> String.rstrip(? )
+    String.split(blanks,"") |> Enum.join(" ") |> String.rstrip
   end
 
   def print_win_status(blanks) do

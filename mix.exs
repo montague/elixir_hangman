@@ -4,10 +4,12 @@ defmodule Hangman.Mixfile do
   def project do
     [ app: :hangman,
       version: "0.0.1",
-      elixir: "~> 0.13.1",
+      elixir: "~> 0.15.1",
       deps: deps,
-      escript_main_module: Hangman
+      escript: [
+        main_module: Hangman
       ]
+  ]
   end
 
   # Configuration for the OTP application
@@ -15,14 +17,7 @@ defmodule Hangman.Mixfile do
     []
   end
 
-  # Returns the list of dependencies in the format:
-  # { :foobar, git: "https://github.com/elixir-lang/foobar.git", tag: "0.1" }
-  #
-  # To specify particular versions, regardless of the tag, do:
-  # { :barbat, "~> 0.1", github: "elixir-lang/barbat" }
   defp deps do
-    [
-      { :benchmark, github: "montague/elixir-benchmark" }
-      ]
+    []
   end
 end
