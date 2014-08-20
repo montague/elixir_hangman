@@ -1,3 +1,3 @@
 # Hangman
 
-** TODO: Add description **
+Play hangman in your console. Duh.
