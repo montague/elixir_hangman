@@ -4,7 +4,7 @@ defmodule Hangman.Mixfile do
   def project do
     [ app: :hangman,
       version: "0.0.1",
-      elixir: "~> 0.15.1",
+      elixir: "~> 1.0",
       deps: deps,
       escript: [
         main_module: Hangman
