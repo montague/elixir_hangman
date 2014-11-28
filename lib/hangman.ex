@@ -5,7 +5,7 @@ defmodule Hangman do
 
   @misses_allowed 8
 
-  def main(args) do
+  def main(_args) do
     # new game
     welcome
     WordsRepo.load_words
