@@ -1,1 +1,0 @@
-%{"benchmark": {:git, "git://github.com/montague/elixir-benchmark.git", "5190d3ad21fcc54486da78a0259fc876229e1de2", []}}
